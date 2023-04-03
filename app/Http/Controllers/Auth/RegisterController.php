@@ -75,8 +75,9 @@ class RegisterController extends Controller
     //     return view("auth.register");
     // }
 
-    public function register(Request $request){
-        if($request->isMethod('post')){
+    public function register(Request $request)
+    {
+        if ($request->isMethod('post')) {
             $data = $request->input();
 
             $this->create($data);
@@ -85,7 +86,33 @@ class RegisterController extends Controller
         return view('auth.register');
     }
 
-    public function added(){
+    public function added()
+    {
         return view('auth.added');
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|min:2|max:12',
+            'mail' => 'required|email|unique:users,mail|min:5|max:40',
+            'password' => 'required|alpha_num|min:8|max:20',
+            'password-confirm' => 'required|same:password|alpha_num|min:8|max:20',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $user = new User();
+        $user->username = $request->username;
+        $user->mail = $request->mail;
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        // ユーザー名をセッションに保存
+        session()->put('username', $user->username);
+
+        return redirect('/added')->with('success', 'ユーザー登録が完了しました。ログインしてください。');
     }
 }
