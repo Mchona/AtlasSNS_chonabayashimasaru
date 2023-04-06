@@ -37,7 +37,15 @@ Route::get('/top', 'PostsController@index');
 
 Route::get('/profile', 'UsersController@profile');
 
-Route::get('/search', 'UsersController@index');
+// Route::get('/search', 'UsersController@index');
+Route::get('/search', 'UsersController@search')->name('search');
+
+//フォロー機能
+Route::post('/follow/{user}', 'FollowsController@follow')->name('follow');
+Route::delete('/unfollow/{user}', 'FollowsController@unfollow')->name('unfollow');
+
+
+
 
 Route::get('/follow-list', 'PostsController@index');
 Route::get('/follower-list', 'PostsController@index');
