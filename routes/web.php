@@ -44,6 +44,16 @@ Route::get('/search', 'UsersController@search')->name('search');
 Route::post('/follow/{user}', 'FollowsController@follow')->name('follow');
 Route::delete('/unfollow/{user}', 'FollowsController@unfollow')->name('unfollow');
 
+//ログアウト
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+
+//フォロワー数表示
+// Route::get('/top', 'UsersController@showProfile')->name('top');
+// Route::get('/profile', 'FollowsController@showProfile')->name('top');
+// Route::get('/search', 'UsersController@showProfile')->name('search');
+
+
+
 
 
 

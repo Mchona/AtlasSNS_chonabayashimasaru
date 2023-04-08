@@ -19,20 +19,32 @@
     <!--iphoneのアプリアイコン指定-->
     <link rel="apple-touch-icon-precomposed" href="画像のURL" />
     <!--OGPタグ/twitterカード-->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function() {
+            $('#menu-toggle').on('click', function() {
+                $('#confirm').hide();
+                $('#menu-list').slideToggle();
+            });
+        });
+    </script>
+
 </head>
 
 <body>
     <header>
         <div id="head">
-            <h1><a><img src="images/logo.png"></a></h1>
+            <h1><a href="/top"><img src="{{ asset('images/atlas.png') }}" alt="アトラス"></a></h1>
             <div id="">
                 <div id="">
-                    <p>〇〇さん<img src="images/arrow.png"></p>
-                    <div>
-                        <ul>
-                            <li><a href="/top">ホーム</a></li>
-                            <li><a href="/profile">プロフィール</a></li>
-                            <li><a href="/logout">ログアウト</a></li>
+                    <p>{{ session('username') }}さん</p><img src="{{ asset('images/icon1.png') }}"></p>
+                    <div id="menu-button">
+                        <button id="menu-toggle">Menu</button>
+                        <ul id="menu-list">
+                            <li class="menu-link"><a href="/top">ホーム</a></li>
+                            <li class="menu-link"><a href="/profile">プロフィール</a></li>
+                            <li class="menu-link"><a href="/logout">ログアウト</a></li>
                         </ul>
                     </div>
                 </div>
@@ -41,12 +53,17 @@
         <div id="container">
             @yield('content')
         </div>
-        <div id="side-bar">
+        @include('sidebar')
+        <!-- <div id="side-bar">
             <div id="confirm">
-                <p>〇〇さんの</p>
+                <p>{{ session('username') }}さんの</p>
                 <div>
                     <p>フォロー数</p>
-                    <p>〇〇名</p>
+                    @if(Request::path() === 'top')
+                    <p>{{ $followerCount }}名</p>
+                    @else
+                    <p>0名</p>
+                    @endif
                 </div>
                 <p class="btn"><a href="">フォローリスト</a></p>
                 <div>
@@ -56,7 +73,7 @@
                 <p class="btn"><a href="">フォロワーリスト</a></p>
             </div>
             <p class="btn"><a href="{{ route('search') }}">ユーザー検索</a></p>
-        </div>
+        </div> -->
     </div>
     <footer>
     </footer>
